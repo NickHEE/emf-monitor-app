@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EMF MONITOR"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/title"
+        android:textSize="35sp" />
+
+    <TextView
+        android:id="@+id/sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="113dp"
+        android:text="BC HYDRO LOGIN"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/username_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/sub_title"
+        android:layout_marginTop="87dp"
+        android:text="Username: "
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/username_field"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/username_text"
+        android:layout_marginTop="38dp"
+        android:ems="7"
+        android:inputType="textPersonName"
+        android:background="@drawable/edit_text_background"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/password_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/username_field"
+        android:layout_marginTop="94dp"
+        android:text="Password: "
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/password_field"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignTop="@+id/password_text"
+        android:layout_marginTop="37dp"
+        android:ems="7"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_text_background"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/login_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
+        android:onClick="login"
+        android:text="Login"
+        android:textSize="25sp"/>
+</RelativeLayout>

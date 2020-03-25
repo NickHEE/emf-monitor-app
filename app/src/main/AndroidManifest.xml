@@ -22,8 +22,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-        <activity android:name="com.example.emf_monitor.LoginActivity"></activity>
-        <activity android:name="com.example.emf_monitor.MainActivity">
+        <activity android:name="com.example.emf_monitor.MainActivity"></activity>
+        <activity android:name="com.example.emf_monitor.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
