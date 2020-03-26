@@ -38,10 +38,10 @@ public class LoginActivity extends AppCompatActivity {
         // validate login here
 
 
-        Intent i = new Intent(LoginActivity.this, MainActivity.class); // go to main screen activity
+        Intent i = new Intent(this, MainActivity.class); // go to main screen activity
         //i.putExtra("USERNAME", usernameField.getText().toString());
         //i.putExtra("PASSWORD", passwordField.getText().toString());
-        setResult(RESULT_OK, i);
+        startActivity(i);
         finish();
     }
 
