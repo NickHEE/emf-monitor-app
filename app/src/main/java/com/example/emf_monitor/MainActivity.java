@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -22,6 +23,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     // Variables for holding magnetometer readings
     private float[] magnetometer_data = null;
 
+    private String EMF_reading_string;
+
+    private TextView EMF_reading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         magSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         magnetometer = magSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        EMF_reading = (TextView) findViewById(R.id.EMF_field);
 
         // see if there is a magnetometer
         if (magnetometer != null){
@@ -55,15 +61,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        // Acquire magnetometer event data
+        // update magnetometer information
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
                 magnetometer_data = new float[3];
                 System.arraycopy(event.values, 0, magnetometer_data, 0, 3);
             }
 
-        // show magnetometer data in Logcat
+        // display magnetometer information
         if (magnetometer_data != null) {
-            Log.d(TAG, "m_x : " + magnetometer_data[0] + " m_y : " + magnetometer_data[1] + " m_z : " + magnetometer_data[2]);
+            EMF_reading_string = "m_x : " + magnetometer_data[0] + " m_y : " + magnetometer_data[1] + " m_z : " + magnetometer_data[2];
+            EMF_reading.setText(EMF_reading_string);
+            //Log.d(TAG, "m_x : " + magnetometer_data[0] + " m_y : " + magnetometer_data[1] + " m_z : " + magnetometer_data[2]);
         }
 
     }
