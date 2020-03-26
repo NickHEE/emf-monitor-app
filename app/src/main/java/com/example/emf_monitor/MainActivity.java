@@ -2,15 +2,27 @@ package com.example.emf_monitor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
+    static final int REQUEST_ALARM = 1;
+
 
     // delay between EMF samples (in microseconds...check to see how accurate this is though)
     // otherwise need to use constant like: SensorManager.SENSOR_DELAY_FASTEST)
@@ -26,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private String EMF_reading_string;
 
     private TextView EMF_reading;
+
+
+    private int alarm_threshold = 1000;
+    private boolean is_mG=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +98,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // N/A
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == REQUEST_ALARM && resultCode == RESULT_OK) {
+            Log.d("onActivityResult", "received alarm value");
+            Bundle args =  data.getExtras();
+            is_mG = args.getBoolean("UNITS", false);
+            alarm_threshold=args.getInt("THRESHOLD",0);
+        }
+    }
+
+    // method for setting a threshold for the alarm
+    public void alarm(final View v) {
+
+
+        Intent i = new Intent(this, AlarmActivity.class);
+        i.putExtra("CURRENT_THRESHOLD", alarm_threshold);
+        i.putExtra("CURRENT_UNITS", is_mG);
+        startActivityForResult(i, REQUEST_ALARM);
+    }
 
 }
