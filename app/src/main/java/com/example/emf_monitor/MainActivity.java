@@ -1,3 +1,6 @@
+// icons: C:\Users\Joseph\AppData\Local\Android\Sdk\platforms\android-29\data\res\drawable-hdpi
+
+
 package com.example.emf_monitor;
 
 import androidx.appcompat.app.AppCompatActivity;
