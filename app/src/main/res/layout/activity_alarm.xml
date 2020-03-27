@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EMF MONITOR"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/title"
+        android:textSize="35sp" />
+
+    <TextView
+        android:id="@+id/sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:text="Settings"
+        android:textSize="25sp" />
+
+
+    <TextView
+        android:id="@+id/units_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/sub_title"
+        android:layout_marginTop="80dp"
+        android:text="Units"
+        android:layout_marginLeft="40dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/threshold_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/units_text"
+        android:layout_alignLeft="@+id/units_text"
+        android:layout_alignTop="@+id/units_text"
+        android:layout_marginTop="79dp"
+        android:text="Alert\nThreshold"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/threshold_field"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/units_text"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="78dp"
+        android:layout_toEndOf="@id/threshold_text"
+        android:background="@drawable/edit_text_background"
+        android:ems="7"
+        android:inputType="numberDecimal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="25sp" />
+
+    <ToggleButton
+        android:id="@+id/is_mG"
+        android:layout_width="125dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/sub_title"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="76dp"
+        android:layout_toEndOf="@id/units_text"
+        android:textAllCaps="false"
+        android:textOff="uT"
+        android:textOn="mG" />
+
+    <Button
+        android:id="@+id/search_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="2dp"
+        android:layout_alignParentLeft="true"
+        android:onClick="cancel"
+        android:text="Cancel" />
+
+    <Button
+        android:text="Apply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/apply_id"
+        android:onClick="apply" />
+
+</RelativeLayout>

@@ -1,13 +1,21 @@
+// icons: C:\Users\Joseph\AppData\Local\Android\Sdk\platforms\android-29\data\res\drawable-hdpi
+
+
 package com.example.emf_monitor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -15,6 +23,8 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
+    static final int REQUEST_ALARM = 1;
+
 
     // delay between EMF samples (in microseconds...check to see how accurate this is though)
     // otherwise need to use constant like: SensorManager.SENSOR_DELAY_FASTEST)
