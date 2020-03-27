@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     // delay between EMF samples (in microseconds...check to see how accurate this is though)
@@ -20,12 +24,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor magnetometer;
     private SensorManager magSensorManager;
     private String TAG = "magnetometer ";
+
     // Variables for holding magnetometer readings
     private float[] magnetometer_data = null;
-
     private String EMF_reading_string;
 
     private TextView EMF_reading;
+    private GraphView graph;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +41,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         magnetometer = magSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
         EMF_reading = (TextView) findViewById(R.id.EMF_field);
+        graph = (GraphView) findViewById(R.id.graph);
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+        graph.addSeries(series);
 
         // see if there is a magnetometer
         if (magnetometer != null){
@@ -80,7 +96,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // N/A
     }
-
-
 
 }
