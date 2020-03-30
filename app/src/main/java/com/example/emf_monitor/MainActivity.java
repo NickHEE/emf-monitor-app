@@ -5,7 +5,9 @@ package com.example.emf_monitor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -28,8 +30,10 @@ import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     // delay between EMF samples (in microseconds...check to see how accurate this is though)
     // otherwise need to use constant like: SensorManager.SENSOR_DELAY_FASTEST)
     private int EMF_delay = 50000;
+    private double EMF_sample_rate = 0.05d;
 
     // setup/management variables for magnetometer
     private Sensor magnetometer;
@@ -55,10 +60,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private double mMax = 0.0;
 
     ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-    private int alarm_threshold = 100;
+    private double alarm_threshold = 100;
 
     private String EMF_reading_string = "Max:  %.1f %s\nAvg:  %.1f %s";
     private double graphLastXValue = 0;
+    private SimpleDateFormat start;
+    private SimpleDateFormat end;
+    private int UID;
 
     private boolean is_mG = true;
     private boolean is_recording = false;
@@ -68,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView EMF_reading;
     private GraphView graph;
     private Button recordButton;
+    private Button settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +90,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         graph = (GraphView) findViewById(R.id.graph);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
         recordButton = (Button) findViewById(R.id.recordButton);
+        settingsButton = (Button) findViewById(R.id.settingsButton);
+
+        Intent i = getIntent();
+        Bundle args = i.getExtras();
+
+        is_mG = args.getString("UNITS", "mG").equals("mG");
+        alarm_threshold = args.getDouble("ALARM_THRESHOLD", 100.0);
+        UID = args.getInt("UID",0);
 
         // see if there is a magnetometer
         if (magnetometer == null){
@@ -103,24 +120,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Log.d("onActivityResult", "received alarm value");
             Bundle args =  data.getExtras();
             is_mG = args.getBoolean("UNITS", false);
-            alarm_threshold = args.getInt("THRESHOLD",0);
+            alarm_threshold = args.getDouble("ALARM_THRESHOLD",100.0);
+            initGraph();
         }
     }
 
     // method for setting a threshold for the alarm
     public void onSettings(final View v) {
 
-        Intent i = new Intent(this, AlarmActivity.class);
-        i.putExtra("CURRENT_THRESHOLD", alarm_threshold);
+        Intent i = new Intent(this, SettingsActivity.class);
+        i.putExtra("CURRENT_ALARM_THRESHOLD", alarm_threshold);
         i.putExtra("CURRENT_UNITS", is_mG);
+        i.putExtra("UID", UID);
         startActivityForResult(i, REQUEST_SETTINGS);
     }
 
     public void onRecord(View v) {
         if (!is_recording) {
 
-            //Get date and do any initializations for db
-            // ...
+            // Start recording
+            start = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
             EMF_reading.setVisibility(View.VISIBLE);
             EMF_reading.setText(String.format(EMF_reading_string, 0.0, getUnit(), 0.0, getUnit()));
@@ -129,9 +148,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             chronometer.start();
             is_recording = true;
             recordButton.setText("Stop");
+            settingsButton.setEnabled(false);
+
             initGraph();
         }
         else {
+
+            // Stop Recording
+            end = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
             EMF_reading.setVisibility(View.INVISIBLE);
             chronometer.setVisibility(View.INVISIBLE);
@@ -140,9 +164,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             is_recording = false;
             recordButton.setText("Record");
 
-            // Do DB stuff
-            // ...
+            String stringData = mRecordedData.stream().map(Object::toString).collect(Collectors.joining(", "));
+            Log.d(TAG, stringData);
 
+            // Insert data into DB
+            EMFMonitorDbHelper dbHelper = new EMFMonitorDbHelper(this);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_UID, UID);
+            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_DATA, stringData);
+            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_START, start.toString());
+            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_STOP, start.toString());
+            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_UID, end.toString());
+
+            db.insert(EMFMonitorDbHelper.DataContract.DataEntry.TABLE_NAME, null, values);
+            dbHelper.close();
+
+            // Reset graph
+            settingsButton.setEnabled(true);
             initGraph();
             mMax = 0;
 
@@ -173,17 +213,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         // display magnetometer information
         if (mData != null) {
-            //EMF_reading_string = "m_x : " + mData[0] + " m_y : " + mData[1] + " m_z : " + mData[2];
-            //Log.d(TAG, "m_x : " + mData[0] + " m_y : " + mData[1] + " m_z : " + mData[2]);
 
             double mRMS = Math.sqrt(Math.pow(mData[0], 2) + Math.pow(mData[1], 2) + Math.pow(mData[2], 2));
+
+            // Generate random values for debugging on emulator
             if (DEBUG) {
                 Random rand = new Random();
                 mRMS = rand.nextDouble() * 115;
             }
+
+            // Unit conversion
+            if (!is_mG) {
+                mRMS /= 10;
+            }
             mRecordedData.add(mRMS);
 
-            if (mRMS > mMax) {
+            // Play an alarm if the RMS value is above the alarm threshold
+            if (mRMS > alarm_threshold) {
                 mMax = mRMS;
                 if (!is_tone_playing){
                     toneGen.startTone(ToneGenerator.TONE_PROP_BEEP2);
@@ -198,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
             }
 
+            // Get average EMF for the session
             double sum = 0.0;
             double avg;
             for (double m : mRecordedData) {
@@ -205,10 +252,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
             avg = sum / mRecordedData.size();
 
-            String unit = is_mG ? "mG" : "uT";
             EMF_reading.setText(String.format(EMF_reading_string, mMax, getUnit(), avg, getUnit()));
 
-            graphLastXValue += 0.05d;
+            graphLastXValue += EMF_sample_rate;
             mGraphData.appendData(new DataPoint(graphLastXValue, mRMS), true, 300);
             mAlarmData.appendData(new DataPoint(graphLastXValue, alarm_threshold), true, 300);
         }
@@ -233,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(12);
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(200);
+        graph.getViewport().setMaxY(alarm_threshold * 1.3);
 
         mGraphData = new LineGraphSeries<>();
         mGraphData.setTitle("RMS Magnetic Field");
