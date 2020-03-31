@@ -1,6 +1,7 @@
 package com.example.emf_monitor;
 
 
+import android.os.SystemClock;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -96,6 +97,8 @@ public class sprint1Test {
         //       (hit login button)
         onView(withId(R.id.login_id)).perform(click());
 
+        SystemClock.sleep(1000);
+
         onView(withId(R.id.settingsButton)).perform(click());// go to settings activity
         //          enter new threshold value
         onView(withId(R.id.threshold_field)).perform(clearText(), closeSoftKeyboard());
@@ -104,6 +107,9 @@ public class sprint1Test {
         onView(withId(R.id.apply_id)).perform(click());
         //          click record button
         onView(withId(R.id.recordButton)).perform(click());
+        SystemClock.sleep(2000);
+        onView(withId(R.id.recordButton)).perform(click());
+
 
     }
     @Test
