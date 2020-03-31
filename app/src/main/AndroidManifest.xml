@@ -22,7 +22,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-        <activity android:name="com.example.emf_monitor.AlarmActivity"></activity>
+        <activity android:name="com.example.emf_monitor.SettingsActivity"></activity>
         <activity android:name="com.example.emf_monitor.MainActivity"></activity>
         <activity android:name="com.example.emf_monitor.LoginActivity">
             <intent-filter>
