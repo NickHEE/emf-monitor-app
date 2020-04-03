@@ -228,9 +228,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
             mRecordedData.add(mRMS);
 
+            // New max EMF
+            if (mRMS > mMax) {
+                mMax = mRMS;
+            }
             // Play an alarm if the RMS value is above the alarm threshold
             if (mRMS > alarm_threshold) {
-                mMax = mRMS;
                 if (!is_tone_playing){
                     toneGen.startTone(ToneGenerator.TONE_PROP_BEEP2);
                     is_tone_playing = true;

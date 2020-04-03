@@ -82,7 +82,7 @@ public class sprint1Test {
     public void initTestData() {
         TEST_USERNAME = "nick";
         TEST_PASSWORD = "hi";
-        TEST_THRESHOLD = "1000";
+        TEST_THRESHOLD = "1000.0";
     }
 
     @Test
@@ -123,6 +123,10 @@ public class sprint1Test {
         onView(withId(R.id.password_field)).perform(typeText(TEST_PASSWORD), closeSoftKeyboard());
         //       (hit login button)
         onView(withId(R.id.login_id)).perform(click());
+        // Settings Page
+        onView(withId(R.id.settingsButton)).perform(click());
+        onView(withId(R.id.threshold_field)).check(matches(hasValueEqualTo(TEST_THRESHOLD)));
     }
+
 }
 
