@@ -1,18 +1,17 @@
-package com.example.emf_monitor;
+package com.example.emf_monitor.EMF_monitor;
 
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.emf_monitor.R;
+import com.example.emf_monitor.SQL_database.EMFMonitorDbHelper;
 
 public class SettingsActivity extends AppCompatActivity {
     private EditText thresholdField;
