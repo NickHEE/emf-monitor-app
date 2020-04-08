@@ -2,7 +2,6 @@ package com.example.emf_monitor;
 
 
 import android.os.SystemClock;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View;
@@ -13,9 +12,10 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.emf_monitor.EMF_monitor.LoginActivity;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
