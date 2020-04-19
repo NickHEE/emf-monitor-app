@@ -1,4 +1,4 @@
-package com.example.emf_monitor;
+package com.example.emf_monitor.EMF_monitor;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -6,12 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.emf_monitor.EMFMonitorDbHelper;
-
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.emf_monitor.R;
+import com.example.emf_monitor.SQL_database.EMFMonitorDbHelper;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameField;

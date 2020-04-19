@@ -1,4 +1,4 @@
-package com.example.emf_monitor;
+package com.example.emf_monitor.SQL_database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +12,6 @@ public class EMFMonitorDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "EMFMonitor.db";
 
 
-    // jank
     public static final int UID_INDEX = 0;
     public static final int USERNAME_INDEX = 1;
     public static final int PASSWORD_INDEX = 2;
@@ -20,23 +19,13 @@ public class EMFMonitorDbHelper extends SQLiteOpenHelper {
     public static final int ALARM_THRESHOLD_INDEX = 4;
     public static final int CAN_WORK_INDEX = 5;
 
-    private static final String SQL_CREATE_TABLE_USERS = "CREATE TABLE " + UserContract.UserEntry.TABLE_NAME + " (\n" +
-            UserContract.UserEntry.COLUMN_NAME_UID +             " INTEGER PRIMARY KEY AUTOINCREMENT\n" +
-            "                                                      NOT NULL,\n" +
-            UserContract.UserEntry.COLUMN_NAME_USERNAME +        " STRING  NOT NULL\n" +
-            "                                                      UNIQUE,\n" +
-            UserContract.UserEntry.COLUMN_NAME_PASSWORD +        " STRING  NOT NULL,\n" +
-            UserContract.UserEntry.COLUMN_NAME_UNITS +           " STRING  DEFAULT mG\n" +
-            "                                                      NOT NULL,\n" +
-            UserContract.UserEntry.COLUMN_NAME_ALARM_THRESHOLD + " DOUBLE  DEFAULT (100.0), \n" +
-            UserContract.UserEntry.COLUMN_NAME_CAN_WORK +        " INTEGER DEFAULT (1) \n" +
-            ");";
+    public static final String SQL_CREATE_TABLE_USERS = String.format("CREATE TABLE %s (\n%s INTEGER PRIMARY KEY AUTOINCREMENT\n                                                      NOT NULL,\n%s STRING  NOT NULL\n                                                      UNIQUE,\n%s STRING  NOT NULL,\n%s STRING  DEFAULT mG\n                                                      NOT NULL,\n%s DOUBLE  DEFAULT (100.0), \n%s INTEGER DEFAULT (1) \n);", UserContract.UserEntry.TABLE_NAME, UserContract.UserEntry.COLUMN_NAME_UID, UserContract.UserEntry.COLUMN_NAME_USERNAME, UserContract.UserEntry.COLUMN_NAME_PASSWORD, UserContract.UserEntry.COLUMN_NAME_UNITS, UserContract.UserEntry.COLUMN_NAME_ALARM_THRESHOLD, UserContract.UserEntry.COLUMN_NAME_CAN_WORK);
 
-    private static final String SQL_POPULATE_TABLE_USERS = "INSERT INTO " + UserContract.UserEntry.TABLE_NAME + " (\n" +
+    public static final String SQL_POPULATE_TABLE_USERS = "INSERT INTO " + UserContract.UserEntry.TABLE_NAME + " (\n" +
             UserContract.UserEntry.COLUMN_NAME_USERNAME + ", " + UserContract.UserEntry.COLUMN_NAME_PASSWORD + ")\n" +
             "VALUES ('test', 'test'), ('nick', 'hi'), ('joseph', 'potato');";
 
-    private static final String SQL_CREATE_TABLE_DATA = "CREATE TABLE " + DataContract.DataEntry.TABLE_NAME + "(\n" +
+    public static final String SQL_CREATE_TABLE_DATA = "CREATE TABLE " + DataContract.DataEntry.TABLE_NAME + "(\n" +
             DataContract.DataEntry.COLUMN_NAME_DID +  " INTEGER  PRIMARY KEY AUTOINCREMENT\n" +
             "                                           NOT NULL,\n" +
             DataContract.DataEntry.COLUMN_NAME_UID +  " INTEGER  REFERENCES users (UID) \n" +

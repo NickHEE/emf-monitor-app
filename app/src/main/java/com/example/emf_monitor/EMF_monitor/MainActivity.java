@@ -1,7 +1,4 @@
-// icons: C:\Users\Joseph\AppData\Local\Android\Sdk\platforms\android-29\data\res\drawable-hdpi
-
-
-package com.example.emf_monitor;
+package com.example.emf_monitor.EMF_monitor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +22,8 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 
+import com.example.emf_monitor.R;
+import com.example.emf_monitor.SQL_database.EMFMonitorDbHelper;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -175,8 +174,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_UID, UID);
             values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_DATA, stringData);
             values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_START, start.toString());
-            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_STOP, start.toString());
-            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_UID, end.toString());
+            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_STOP, end.toString());
 
             db.insert(EMFMonitorDbHelper.DataContract.DataEntry.TABLE_NAME, null, values);
             dbHelper.close();

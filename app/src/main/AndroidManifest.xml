@@ -10,9 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.example.emf_monitor.SettingsActivity"></activity>
-        <activity android:name="com.example.emf_monitor.MainActivity"></activity>
-        <activity android:name="com.example.emf_monitor.LoginActivity">
+        <activity android:name="com.example.emf_monitor.EMF_monitor.SettingsActivity"></activity>
+        <activity android:name="com.example.emf_monitor.EMF_monitor.MainActivity"></activity>
+        <activity android:name="com.example.emf_monitor.EMF_monitor.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

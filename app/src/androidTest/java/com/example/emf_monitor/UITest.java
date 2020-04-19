@@ -2,7 +2,6 @@ package com.example.emf_monitor;
 
 
 import android.os.SystemClock;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View;
@@ -13,9 +12,10 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.emf_monitor.EMF_monitor.LoginActivity;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,7 +39,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest // Test takes longer than 1000ms to complete
-public class sprint1Test {
+public class UITest {
     private static String TEST_USERNAME;
     private static String TEST_PASSWORD;
     private static String TEST_THRESHOLD;
@@ -86,7 +86,7 @@ public class sprint1Test {
     }
 
     @Test
-    public void sprint1Test() {
+    public void loginAndRecord() {
 
         // login (username)
         onView(withId(R.id.username_field)).perform(clearText(), closeSoftKeyboard());
@@ -113,7 +113,7 @@ public class sprint1Test {
 
     }
     @Test
-    public void sprint1Test2() {
+    public void checkSettingsSaved() {
         // logout/login again
         // login (username)
         onView(withId(R.id.username_field)).perform(clearText(), closeSoftKeyboard());
