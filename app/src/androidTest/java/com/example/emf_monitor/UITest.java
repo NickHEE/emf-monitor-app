@@ -39,7 +39,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest // Test takes longer than 1000ms to complete
-public class sprint1Test {
+public class UITest {
     private static String TEST_USERNAME;
     private static String TEST_PASSWORD;
     private static String TEST_THRESHOLD;
@@ -86,7 +86,7 @@ public class sprint1Test {
     }
 
     @Test
-    public void sprint1Test() {
+    public void loginAndRecord() {
 
         // login (username)
         onView(withId(R.id.username_field)).perform(clearText(), closeSoftKeyboard());
@@ -113,7 +113,7 @@ public class sprint1Test {
 
     }
     @Test
-    public void sprint1Test2() {
+    public void checkSettingsSaved() {
         // logout/login again
         // login (username)
         onView(withId(R.id.username_field)).perform(clearText(), closeSoftKeyboard());

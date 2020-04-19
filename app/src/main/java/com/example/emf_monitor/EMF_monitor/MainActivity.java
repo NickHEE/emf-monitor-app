@@ -1,6 +1,3 @@
-// icons: C:\Users\Joseph\AppData\Local\Android\Sdk\platforms\android-29\data\res\drawable-hdpi
-
-
 package com.example.emf_monitor.EMF_monitor;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -177,8 +174,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_UID, UID);
             values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_DATA, stringData);
             values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_START, start.toString());
-            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_STOP, start.toString());
-            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_UID, end.toString());
+            values.put(EMFMonitorDbHelper.DataContract.DataEntry.COLUMN_NAME_STOP, end.toString());
 
             db.insert(EMFMonitorDbHelper.DataContract.DataEntry.TABLE_NAME, null, values);
             dbHelper.close();
